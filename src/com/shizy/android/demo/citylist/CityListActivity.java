@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 public class CityListActivity extends Activity {
@@ -36,10 +39,10 @@ public class CityListActivity extends Activity {
 				mOverlay.setVisibility(View.GONE);
 			}
 			else {
-//				int position = mAdapter.getIndex(letter);
-//				if (position >= 0) {
-//					mFriendList.setSelection(position);
-//				}
+				int position = mAdapter.getPositionForSection(letter);
+				if (position >= 0) {
+					mListView.setSelection(position);
+				}
 				mOverlay.setText(letter);
 				mOverlay.setVisibility(View.VISIBLE);
 			}
@@ -53,7 +56,8 @@ public class CityListActivity extends Activity {
 		}
 	};
 	
-	private List<City> mCities;
+	private List<ICityListItem> mListItems;
+	private HashMap<String, Integer> mSection;
 	
 	@InjectView(R.id.listview)
 	ListView mListView;
@@ -80,16 +84,34 @@ public class CityListActivity extends Activity {
 			String json = new String(buffer, "UTF-8");
 			if (json != null) {
 				try {
+					List<ICityListItem> items = new ArrayList<ICityListItem>();
+					HashMap<String, Integer> section = new HashMap<String, Integer>();
 					JSONArray array = new JSONArray(json);
-					List<City> cities = new ArrayList<City>();
+					
 					City city = null;
-					if (array != null) {
-						for (int i = 0; i < array.length(); i++) {
-							city = new City(array.optJSONObject(i));
-							cities.add(city);
+					String initial = null;
+					Alphabet alphabet = null;
+					JSONArray list = null;
+					JSONObject temp = null;
+					for (int aIndex = 0; aIndex < array.length(); aIndex++) {
+						temp = array.optJSONObject(aIndex);
+						initial = temp.optString("initial");
+						list = temp.optJSONArray("list");
+						
+						section.put(initial, items.size());
+						
+						alphabet = new Alphabet();
+						alphabet.setLetter(initial);
+						items.add(alphabet);
+						
+						for (int listIndex = 0; listIndex < list.length(); listIndex++) {
+							temp = list.optJSONObject(listIndex);
+							city = new City(temp);
+							items.add(city);
 						}
 					}
-					mCities = cities;
+					mSection = section;
+					mListItems = items;
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -109,14 +131,15 @@ public class CityListActivity extends Activity {
 	}
 	
 	private class CityListAdapter extends BaseAdapter {
+		
 		@Override
 		public int getCount() {
-			return mCities == null ? 0 : mCities.size();
+			return mListItems == null ? 0 : mListItems.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return mCities.get(position);
+			return mListItems.get(position);
 		}
 
 		@Override
@@ -129,7 +152,7 @@ public class CityListActivity extends Activity {
 			if (convertView == null) {
 				convertView = new TextView(CityListActivity.this);
 			}
-			((TextView)convertView).setText(mCities.get(position).getName());
+			((TextView)convertView).setText(mListItems.get(position).getTitle());
 			return convertView;
 		}
 		
@@ -137,6 +160,13 @@ public class CityListActivity extends Activity {
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 			Log.d(TAG, "shizy---notifyDataSetChanged");
+		}
+
+		public int getPositionForSection(String letter) {
+			if (mSection.containsKey(letter)) {
+				return mSection.get(letter);
+			}
+			return -1;
 		}
 	}
 }

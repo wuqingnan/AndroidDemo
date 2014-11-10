@@ -2,10 +2,10 @@ package com.shizy.android.demo.citylist;
 
 import org.json.JSONObject;
 
-public class City {
+public class City implements ICityListItem {
 
-	private String name;
-	private String provice;
+	private String mName;
+	private String mProvice;
 	
 	public City() {
 		
@@ -19,23 +19,29 @@ public class City {
 	}
 	
 	public String getName() {
-		return name;
+		return mName;
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		mName = name;
 	}
 	
 	public String getProvice() {
-		return provice;
+		return mProvice;
 	}
 	
 	public void setProvice(String provice) {
-		this.provice = provice;
+		mProvice = provice;
 	}
 	
-	public String toJSONString() {
-		return toJSONString().toString();
+	@Override
+	public int getType() {
+		return TYPE_CITY;
+	}
+
+	@Override
+	public String getTitle() {
+		return getName();
 	}
 	
 }
