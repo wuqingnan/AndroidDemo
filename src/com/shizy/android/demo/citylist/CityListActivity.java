@@ -19,6 +19,7 @@ import com.shizy.android.demo.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,17 @@ public class CityListActivity extends Activity {
 	private AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-			
+			if (id >= 0) {
+				ICityListItem item = mAdapter.getItem((int)id);
+				if (item.getType() == ICityListItem.TYPE_CITY) {
+					Log.d(TAG, "shizy---City: " + item.getTitle());
+				}
+			}
 		}
 	};
 	
 	private List<ICityListItem> mListItems;
-	private HashMap<String, Integer> mSection;
+	private HashMap<String, Integer> mSections;
 	
 	@InjectView(R.id.listview)
 	ListView mListView;
@@ -90,7 +96,7 @@ public class CityListActivity extends Activity {
 					
 					City city = null;
 					String initial = null;
-					Alphabet alphabet = null;
+					Section alphabet = null;
 					JSONArray list = null;
 					JSONObject temp = null;
 					for (int aIndex = 0; aIndex < array.length(); aIndex++) {
@@ -100,7 +106,7 @@ public class CityListActivity extends Activity {
 						
 						section.put(initial, items.size());
 						
-						alphabet = new Alphabet();
+						alphabet = new Section();
 						alphabet.setLetter(initial);
 						items.add(alphabet);
 						
@@ -110,7 +116,7 @@ public class CityListActivity extends Activity {
 							items.add(city);
 						}
 					}
-					mSection = section;
+					mSections = section;
 					mListItems = items;
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -132,13 +138,19 @@ public class CityListActivity extends Activity {
 	
 	private class CityListAdapter extends BaseAdapter {
 		
+		private LayoutInflater mInflater;
+		
+		public CityListAdapter() {
+			mInflater = LayoutInflater.from(CityListActivity.this);
+		}
+		
 		@Override
 		public int getCount() {
 			return mListItems == null ? 0 : mListItems.size();
 		}
 
 		@Override
-		public Object getItem(int position) {
+		public ICityListItem getItem(int position) {
 			return mListItems.get(position);
 		}
 
@@ -148,23 +160,35 @@ public class CityListActivity extends Activity {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if (convertView == null) {
-				convertView = new TextView(CityListActivity.this);
-			}
-			((TextView)convertView).setText(mListItems.get(position).getTitle());
-			return convertView;
+		public int getViewTypeCount() {
+			return ICityListItem.TYPE_COUNT;
 		}
 		
 		@Override
-		public void notifyDataSetChanged() {
-			super.notifyDataSetChanged();
-			Log.d(TAG, "shizy---notifyDataSetChanged");
+		public int getItemViewType(int position) {
+			return getItem(position).getType();
 		}
-
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ICityListItem item = getItem(position);
+			if (convertView == null) {
+				switch (item.getType()) {
+				case ICityListItem.TYPE_SECTION:
+					convertView = mInflater.inflate(R.layout.citylist_section, null);
+					break;
+				case ICityListItem.TYPE_CITY:
+					convertView = mInflater.inflate(R.layout.citylist_city, null);
+					break;
+				}
+			}
+			((TextView)convertView.findViewById(R.id.title)).setText(item.getTitle());
+			return convertView;
+		}
+		
 		public int getPositionForSection(String letter) {
-			if (mSection.containsKey(letter)) {
-				return mSection.get(letter);
+			if (mSections.containsKey(letter)) {
+				return mSections.get(letter);
 			}
 			return -1;
 		}
