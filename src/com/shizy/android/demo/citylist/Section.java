@@ -1,6 +1,6 @@
 package com.shizy.android.demo.citylist;
 
-public class Alphabet implements ICityListItem {
+public class Section implements ICityListItem {
 
 	private String mLetter;
 	
@@ -14,7 +14,7 @@ public class Alphabet implements ICityListItem {
 
 	@Override
 	public int getType() {
-		return TYPE_ALPHABET;
+		return TYPE_SECTION;
 	}
 
 	@Override

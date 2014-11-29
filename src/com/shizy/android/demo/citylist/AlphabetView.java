@@ -58,8 +58,7 @@ public class AlphabetView extends View {
 		mSingleHeight = mHeight / ALPHABET_DEFAULT.length;
 		mOffsetY = mHeight % ALPHABET_DEFAULT.length / 2;
 
-		mPaint.setTextSize(mSingleHeight - 3
-				* getResources().getDisplayMetrics().density);
+		mPaint.setTextSize(mSingleHeight / 2);
 		mPaint.setAntiAlias(true);
 		mPaint.setFakeBoldText(true);
 
@@ -72,18 +71,14 @@ public class AlphabetView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		if (mIsInTouch) {
-			canvas.drawColor(Color.parseColor("#C0000000"));
+			canvas.drawColor(Color.parseColor("#C0F4F4F4"));
 		}
 
 		for (int i = 0; i < ALPHABET_DEFAULT.length; i++) {
 			if (mIsInTouch) {
-				if (i == mTouchIndex) {
-					mPaint.setColor(Color.parseColor("#00C6FF"));
-				} else {
-					mPaint.setColor(Color.parseColor("#FFFFFF"));
-				}
+				mPaint.setColor(Color.parseColor("#209AE4"));
 			} else {
-				mPaint.setColor(Color.parseColor("#6B747D"));
+				mPaint.setColor(Color.parseColor("#ABABAB"));
 			}
 			float xPos = mWidth / 2 - mPaint.measureText(ALPHABET_DEFAULT[i])
 					/ 2;
