@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.shizy.android.demo.citylist.CityListActivity"
             android:label="@string/app_name" >
@@ -30,8 +29,10 @@
             android:name="com.shizy.android.demo.badger.BadgerActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity android:name="com.shizy.android.demo.uninstall.UnInstallActivity" >
+        </activity>
         <activity
-            android:name="com.shizy.android.demo.uninstall.UnInstallActivity"
+            android:name="com.shizy.android.demo.swiperefresh.SwipeRefreshLayoutActivity"
             android:label="@string/app_name" >
         </activity>
     </application>
