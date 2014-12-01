@@ -1,7 +1,9 @@
-######忽略bin目录
+﻿######忽略bin目录
 bin/
 ######忽略gen目录
 gen/
+######忽略obj目录
+obj/
 ######忽略.settings目录
 .settings/
 .apt_generated/
