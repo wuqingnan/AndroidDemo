@@ -35,6 +35,31 @@
             android:name="com.shizy.android.demo.swiperefresh.SwipeRefreshLayoutActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.shizy.android.demo.service.BindingActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.shizy.android.demo.service.ActivityMessenger"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.shizy.android.demo.service.RemoteServiceActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <service
+            android:name="com.shizy.android.demo.service.HelloIntentService" >
+        </service>
+        <service
+            android:name="com.shizy.android.demo.service.LocalService" >
+        </service>
+        <service
+            android:name="com.shizy.android.demo.service.MessengerService" >
+        </service>
+        <service
+            android:name="com.shizy.android.demo.service.RemoteService"
+            android:process=":shizy" >
+        </service>
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@ public class RemoteServiceActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 		// Bind to LocalService
-		Intent intent = new Intent(this, LocalService.class);
+		Intent intent = new Intent(this, RemoteService.class);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 	}
 

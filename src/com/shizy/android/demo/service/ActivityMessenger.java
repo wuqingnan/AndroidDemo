@@ -43,6 +43,14 @@ public class ActivityMessenger extends Activity {
 		}
 	};
 
+	/**
+	 * Called when a button is clicked (the button in the layout file attaches
+	 * to this method with the android:onClick attribute)
+	 */
+	public void onButtonClick(View v) {
+		sayHello(v);
+	}
+	
 	public void sayHello(View v) {
 		if (!mBound)
 			return;
