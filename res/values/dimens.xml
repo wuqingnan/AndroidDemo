@@ -27,4 +27,6 @@
     
     <dimen name="id_image_width">120dp</dimen>
     <dimen name="id_image_height">90dp</dimen>
+    
+    <dimen name="widget_margin">8dp</dimen>
 </resources>
