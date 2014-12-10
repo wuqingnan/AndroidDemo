@@ -3,6 +3,8 @@ package com.shizy.android.demo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.shizy.android.demo.keyguard.KeyguardActivity;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,6 +12,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,12 @@ public class MainActivity extends ListActivity {
 					mActivities.get(position).name);
 			startActivity(intent);
 		}
+	};
+	
+	private Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			startActivity(new Intent(MainActivity.this, KeyguardActivity.class));
+		};
 	};
 
 	@Override
