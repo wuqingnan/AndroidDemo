@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/shizy/android/demo/picker/NumberPicker.java" kind="src" path="src"/>
+	<classpathentry excluding="com/shizy/android/demo/picker/NumberPicker.java|com/shizy/android/demo/picker/DatePicker.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
