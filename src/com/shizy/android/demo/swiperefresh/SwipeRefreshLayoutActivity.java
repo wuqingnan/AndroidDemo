@@ -8,6 +8,7 @@ import com.shizy.android.demo.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.MySwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -17,7 +18,7 @@ public class SwipeRefreshLayoutActivity extends Activity {
 
 	private static final String TAG = SwipeRefreshLayoutActivity.class.getSimpleName();
 	
-	private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+	private MySwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new MySwipeRefreshLayout.OnRefreshListener() {
 		@Override
 		public void onRefresh() {
 			refresh();
@@ -37,14 +38,14 @@ public class SwipeRefreshLayoutActivity extends Activity {
 	private Handler mHandler = new Handler();
 	
 	@InjectView(R.id.swiperefresh)
-	SwipeRefreshLayout mSwipeRefreshLayout;
+	MySwipeRefreshLayout mSwipeRefreshLayout;
 	@InjectView(R.id.listview)
 	ListView mListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_swiperefreshlayout);
+		setContentView(R.layout.swipe_refresh_list);
 		initView();
 	}
 	
@@ -63,6 +64,6 @@ public class SwipeRefreshLayoutActivity extends Activity {
     	Log.d(TAG, "shizy---refresh");
     	mSwipeRefreshLayout.setEnabled(false);
         mHandler.removeCallbacks(mRefreshDone);
-        mHandler.postDelayed(mRefreshDone, 2000);
+        mHandler.postDelayed(mRefreshDone, 5000);
     }
 }
